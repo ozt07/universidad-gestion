@@ -1,11 +1,11 @@
 import express, { Request, Response } from 'express';
-import * as asignaturaController from '../controllers/asignaturaController';
-import { Asignatura } from '../models/asignaturaModel';
-const asignaturaRouter = express.Router();
+import * as imparteController from '../controllers/imparteController';
+import { Imparte } from '../models/imparteModel';
+const imparteRouter = express.Router();
  
-asignaturaRouter.post('/', async (req: Request, res: Response) => {
-    const newAsignatura: Asignatura = req.body;
-    asignaturaController.create(newAsignatura, (err: Error, result: any) => {
+imparteRouter.post('/', async (req: Request, res: Response) => {
+    const newimparte: Imparte = req.body;
+    imparteController.create(newimparte, (err: Error, result: any) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
@@ -14,8 +14,8 @@ asignaturaRouter.post('/', async (req: Request, res: Response) => {
     });
 });
  
-asignaturaRouter.get('/', async (req: Request, res: Response) => {
-    asignaturaController.getAll((err: Error, result: any) => {
+imparteRouter.get('/', async (req: Request, res: Response) => {
+    imparteController.getAll((err: Error, result: any) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
@@ -24,32 +24,32 @@ asignaturaRouter.get('/', async (req: Request, res: Response) => {
     });
 });
  
-//MÉTODOS GET, UPDATE Y DELETE PARA EL ROUTER DE asignatura:
+//MÉTODOS GET, UPDATE Y DELETE PARA EL ROUTER DE imparte:
  
-asignaturaRouter.get('/:cod_e', async (req: Request, res: Response) => {
+imparteRouter.get('/:cod_e', async (req: Request, res: Response) => {
     const cod_e = parseInt(req.params.cod_e);
-    asignaturaController.getById(cod_e, (err: Error, result: any) => {
+    imparteController.getById(cod_e, (err: Error, result: any) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
  
         if (!result) {
-            return res.status(404).json({ 'message': 'Asignatura no encontrado' });
+            return res.status(404).json({ 'message': 'Imparte no encontrado' });
         }
  
         res.status(result.statusCode).json(result);
     });
 });
  
-asignaturaRouter.put('/:cod_e', async (req: Request, res: Response) => {
+imparteRouter.put('/:cod_e', async (req: Request, res: Response) => {
     const cod_e = parseInt(req.params.cod_e);
     /*
     ... operador de propagación (spread operator) en JavaScript y TypeScript.
     Este operador permite expandir un objeto o un array en sus elementos individuales
     */
-    const updatedAsignatura: Asignatura = { ...req.body, cod_e };
+    const updatedImparte: Imparte = { ...req.body, cod_e };
  
-    asignaturaController.update(updatedAsignatura, (err: Error, result: any) => {
+    imparteController.update(updatedImparte, (err: Error, result: any) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
@@ -58,10 +58,10 @@ asignaturaRouter.put('/:cod_e', async (req: Request, res: Response) => {
     });
 });
  
-asignaturaRouter.delete('/:cod_e', async (req: Request, res: Response) => {
+imparteRouter.delete('/:cod_e', async (req: Request, res: Response) => {
     const cod_e = parseInt(req.params.cod_e);
  
-    asignaturaController.remove(cod_e, (err: Error, result: any) => {
+    imparteController.remove(cod_e, (err: Error, result: any) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
@@ -69,4 +69,5 @@ asignaturaRouter.delete('/:cod_e', async (req: Request, res: Response) => {
         res.status(result.statusCode).json(result);
     });
 });
-export {asignaturaRouter};
+export {imparteRouter};
+

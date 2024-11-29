@@ -1,57 +1,55 @@
-import { Asignatura } from '../models/asignaturaModel';
+import { Imparte } from '../models/imparteModel';
 import { db } from '../../db';
 import { OkPacket, RowDataPacket } from 'mysql2';
 
-
-export const create = (asignatura: Asignatura, callback: Function) => {
-    const queryString = 'INSERT INTO asignaturas (cod_a, nom_a, int_h, creditos) VALUES (?, ?, ?, ?)';
+export const create = (imparte: Imparte, callback: Function) => {
+    const queryString = 'INSERT INTO imparte (id_p, cod_a, grupo, horario) VALUES (?, ?, ?, ?)';
 
     db.query(
         queryString,
-        [asignatura.cod_a, asignatura.nom_a, asignatura.int_h, asignatura.creditos],
+        [imparte.id_p, imparte.cod_a,  imparte.grupo, imparte.horario],
         (err) => {
             if (err) { callback(err); }
 
             callback(null, {
                 statusCode: 201,
-                message: 'Asignatura creada exitosamente',
+                message: 'Imparte creada exitosamente',
                 data: {
-                    cod_a: asignatura.cod_a
+                    id_p: imparte.id_p
                 }
             });
         }
     );
 };
-
 export const getAll = (callback: Function) => {
-    const queryString = 'SELECT * FROM asignaturas';
+    const queryString = 'SELECT * FROM imparte';
 
     db.query(queryString, (err, result) => {
         if (err) { callback(err); }
 
         const rows = <RowDataPacket[]>result;
-        const asignaturas: Asignatura[] = [];
+        const imparte:  Imparte[] = [];
         rows.forEach(row => {
-            const asignatura: Asignatura = {
+            const   imparte:   Imparte = {
+                id_p: row.id_p,
                 cod_a: row.cod_a,
-                nom_a: row.nom_a,
-                int_h: row.int_h,
-                creditos: row.creditos
+                grupo: row.grupo,
+                horario: row.horario
             };
-            asignaturas.push(asignatura);
+            imparte.push(imparte);
         });
         callback(null, {
             statusCode: 200,
-            message: 'Asignaturas obtenidas exitosamente',
-            data: asignaturas
+            message: '  Imparte obtenidas exitosamente',
+            data: imparte
         });
     });
 };
-
 export function getById(cod_e: number, arg1: (err: Error, result: any) => import("express").Response<any, Record<string, any>> | undefined) {
     throw new Error('Function not implemented.');
 }
-export function update(updatedAsignatura: Asignatura, arg1: (err: Error, result: any) => import("express").Response<any, Record<string, any>> | undefined) {
+
+export function update(updatedImparte: Imparte, arg1: (err: Error, result: any) => import("express").Response<any, Record<string, any>> | undefined) {
     throw new Error('Function not implemented.');
 }
 

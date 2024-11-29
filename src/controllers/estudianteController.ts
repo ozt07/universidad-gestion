@@ -51,3 +51,15 @@ export const getAll = (callback: Function) => {
         });
     });
 };
+
+export function getById(cod_e: number, arg1: (err: Error, result: any) => import("express").Response<any, Record<string, any>> | undefined) {
+    throw new Error('Function not implemented.');
+}
+export function update(updatedEstudiante: Estudiante, arg1: (err: Error, result: any) => import("express").Response<any, Record<string, any>> | undefined) {
+    throw new Error('Function not implemented.');
+}
+
+export function remove(cod_e: number, arg1: (err: Error, result: any) => import("express").Response<any, Record<string, any>> | undefined) {
+    throw new Error('Function not implemented.');
+}
+

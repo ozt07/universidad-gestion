@@ -4,6 +4,10 @@ import * as bodyParser from 'body-parser';
 import { estudianteRouter } from './src/routes/estudianteRouter';
 import { profesorRouter } from './src/routes/profesorRouter';
 import { asignaturaRouter } from './src/routes/asignaturaRouter';
+import { imparteRouter } from './src/routes/imparteRouter';
+import { inscribeRouter } from './src/routes/inscribeRouter';
+
+
 import { db } from './db';
 import cors from 'cors';
 
@@ -21,6 +25,9 @@ app.get('/', (Req, res) => {
 app.use('/estudiantes', estudianteRouter);
 app.use('/profesores', profesorRouter);
 app.use('/asignaturas', asignaturaRouter);
+app.use('/imparte', imparteRouter);
+app.use('/inscribe', inscribeRouter);
+
 
 db.connect((err) => {
     if (err) {
