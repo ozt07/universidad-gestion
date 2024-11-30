@@ -1,0 +1,38 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+.busqueda {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input,
+select {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.acciones {
+    display: flex;
+    gap: 10px;
+}
+
+img {
+    max-width: 70px;
+    max-height: 70px;
+    border-radius: 5px;
+}

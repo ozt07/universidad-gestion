@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Profesores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style_IU.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">Inicio</a>
+            <a href="estudiantes.html" class="navbar-brand">Estudiantes</a>
+            <a href="#" class="navbar-brand">Profesores</a>
+            <a href="asignaturas.html" class="navbar-brand">Asignaturas</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <br>
+        <h2>Gestión de Profesores</h2>
+        <div class="busqueda">
+            <select id="filtro-busqueda" class="form-select" onchange="actualizarFiltro(); buscarProfesores()">
+                <option value="0">Código</option>
+                <option value="1">Nombre</option>
+                <option value="2">Dirección</option>
+                <option value="3">Teléfono</option>
+                <option value="4">Profesion</option>
+            </select>
+            <input type="text" id="buscar-profesores" class="form-control" placeholder="Buscar Profesores" oninput="buscarProfesores()">
+            <!-- Botón para mostrar el formulario -->
+            <button id="btnAgregarProfesor" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formModal"><i class="fas fa-user-plus"></i></button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr class="table-primary">
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Profesion</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-profesores"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal de registro de Profesores -->
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModalLabel">Formulario de Registro de Profesores</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profesorForm">
+                        <div class="mb-3">
+                            <label for="id_p" class="form-label">Código:</label>
+                            <input type="text" id="id_p" name="id_p" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nom_p" class="form-label">Nombre:</label>
+                            <input type="text" id="nom_p" name="nom_p" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dir_p" class="form-label">Dirección:</label>
+                            <input type="text" id="dir_p" name="dir_p" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tel_p" class="form-label">Teléfono:</label>
+                            <input type="tel" id="tel_p" name="tel_p" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="profesion" class="form-label">Profesion:</label>
+                            <input type="text" id="profesion" name="profesion" class="form-control" required>
+                        </div>
+                        <div id="mensaje"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" id="btnRegistrar">Registrar Profesores</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de edición de Profesores -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Formulario de Edición de Profesores</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="edit_id_p" name="edit_id_p">  <!-- Código no editable -->
+                        <div class="mb-3">
+                            <label for="edit_nom_p" class="form-label">Nombre:</label>
+                            <input type="text" id="edit_nom_p" name="edit_nom_p" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_dir_p" class="form-label">Dirección:</label>
+                            <input type="text" id="edit_dir_p" name="edit_dir_p" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_tel_p" class="form-label">Teléfono:</label>
+                            <input type="number" id="edit_tel_p" name="edit_tel_p" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit_profesion" class="form-label">Profesion:</label>
+                            <input type="text" id="edit_profesion" name="edit_profesion" class="form-control" required>
+                        </div>
+                        <div id="mensaje-edit"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btnGuardarCambios">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incluir JS de Bootstrap y script para la funcionalidad -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const API_URL = 'http://localhost:3000/profesores'; // Cambia esta URL si es necesario
+let columnaFiltro = 0; // Variable para almacenar el índice del filtro seleccionado
+
+
+// Función para actualizar el filtro de búsqueda
+function actualizarFiltro() {
+    columnaFiltro = parseInt(document.getElementById('filtro-busqueda').value, 10); // Asegurar que se convierta a número
+    console.log('Filtro actualizado:', columnaFiltro);
+    buscarProfesores(); // Llamar a la búsqueda cuando se actualice el filtro
+}
+
+// Función para buscar Profesores según el filtro
+function buscarProfesores() {
+    const busqueda = document.getElementById('buscar-profesores').value.toLowerCase();
+    console.log('Término de búsqueda:', busqueda);
+
+    fetch(`${API_URL}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Datos obtenidos:', data.data);
+
+            const profesores = data.data.filter(profesor => {
+                // Convertir los campos a texto y pasar a minúsculas para la comparación
+                const id_p = profesor.id_p.toString().toLowerCase();
+                const nom_p = profesor.nom_p.toLowerCase();
+                const dir_p = profesor.dir_p.toLowerCase();
+                const tel_p = profesor.tel_p.toString().toLowerCase();
+                const profesion = profesor.profesion.toString().toLowerCase();
+
+                console.log(`Filtro ${columnaFiltro} comparando:`);
+                console.log('Código:', id_p);
+                console.log('Nombre:', nom_p);
+                console.log('Dirección:', dir_p);
+                console.log('Teléfono:', tel_p);
+                console.log('Profesion:', profesion);
+
+                switch (columnaFiltro) {
+                    case 0: return id_p.includes(busqueda); // Filtro por código
+                    case 1: return nom_p.includes(busqueda); // Filtro por nombre
+                    case 2: return dir_p.includes(busqueda); // Filtro por dirección
+                    case 3: return tel_p.includes(busqueda); // Filtro por teléfono
+                    case 4: return profesion.includes(busqueda); // Filtro por Profesion
+                    default: return id_p.includes(busqueda); // Filtro por nombre por defecto
+                }
+            });
+            console.log('Profesores filtrados:', profesores);
+            actualizarTabla(profesores); // Actualizamos la tabla con los resultados filtrados
+        })
+        .catch(error => console.error('Error al buscar Profesores:', error));
+}
+
+
+
+// Función para actualizar la tabla con los Profesores filtrados
+function actualizarTabla(profesores) {
+    const tabla = document.getElementById('tabla-profesores');
+    tabla.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos resultados
+
+    profesores.forEach(profesor => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>${profesor.id_p}</td>
+            <td>${profesor.nom_p}</td>
+            <td>${profesor.dir_p}</td>
+            <td>${profesor.tel_p}</td>
+            <td>${profesor.profesion}</td>
+            <td><button class="btn btn-primary btn-sm" onclick="abrirModalEdicion(${profesor.id_p})"><i class="fas fa-user-edit"></i></button></td>
+            <td><button onclick="eliminarProfesor('${profesor.id_p}')" class="btn btn-danger btn-sm"><i class="fas fa-user-minus"></i></button></td>
+        `;
+        tabla.appendChild(fila);
+    });
+}
+
+// Función para obtener los Profesores al cargar la página
+async function obtenerProfesores() {
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('No se pudieron obtener los Profesores');
+        const data = await response.json();
+        const profesores = data.data; // Ajusta según tu respuesta
+        actualizarTabla(profesores);
+    } catch (error) {
+        console.error('Error al obtener los Profesores:', error);
+        alert('Hubo un problema al obtener los Profesores.');
+    }
+}
+
+// Función para eliminar un Profesores
+async function eliminarProfesor(id) {
+    if (confirm('¿Estás seguro de que deseas eliminar este Profesores?')) {
+        try {
+            const response = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+            
+            if (!response.ok) {
+                throw new Error(`Error al eliminar el Profesores. Código de estado: ${response.status}`);
+            }
+            
+            const result = await response.json(); // Si la API devuelve una respuesta en formato JSON
+            console.log('Resultado de la eliminación:', result);
+            
+            alert('Profesores eliminado exitosamente');
+            obtenerProfesores(); // Actualizar la tabla
+        } catch (error) {
+            console.error('Error al eliminar Profesores:', error);
+            alert('Hubo un problema al eliminar el Profesores.');
+        }
+    }
+}
+
+// Función para registrar un Profesores---------------------------------------------------------------------------
+document.getElementById('btnRegistrar').addEventListener('click', function () {
+    const profesor = {
+        id_p: document.getElementById('id_p').value,
+        nom_p: document.getElementById('nom_p').value,
+        dir_p: document.getElementById('dir_p').value,
+        tel_p: document.getElementById('tel_p').value,
+        profesion: document.getElementById('profesion').value,
+    };
+
+    console.log('Datos del Profesores:', profesor);  // Verifica los datos antes de enviarlos
+
+    // Validar que todos los campos estén llenos antes de enviar la información
+    if (!profesor.id_p || !profesor.nom_p || !profesor.dir_p || !profesor.tel_p || !profesor.profesion) {
+        alert('Por favor, complete todos los campos.');
+        return;
+    }
+
+    fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profesor)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Respuesta de la API:', data);  // Verifica la respuesta de la API
+        if (data.statusCode === 201) {  // Verificar el statusCode, ya que es lo que la API envía
+            alert('profesor registrado con éxito');
+            
+            // Cerrar el modal usando Bootstrap 5
+            const modal = bootstrap.Modal.getInstance(document.getElementById('formModal')); // Obtener la instancia del modal
+            modal.hide();  // Cerrar el modal
+
+            // Resetear el formulario
+            document.getElementById('profesorForm').reset(); // Limpiar el formulario
+
+            // Actualizar la lista de profesor
+            obtenerProfesores();
+        } else {
+            alert('Error al registrar el profesor: ' + data.message); // Usar el mensaje de la API si hay error
+        }
+    })
+    .catch(error => {
+        console.error('Error al registrar el profesor:', error);
+        alert('Hubo un problema al registrar el profesor.');
+    });
+});
+
+
+// Editar un profesor-----------------------------------------------------------------------------------------------------------------
+// Función para editar un profesor-----------------------------------------------------------------------------------------------------------------
+function abrirModalEdicion(id_p) {
+    console.log("Abrir modal para profesor con código:", id_p);
+    
+    fetch(`http://localhost:3000/profesores/${id_p}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.data) {
+                // Rellenar los campos del modal con los datos del profesor
+                document.getElementById('edit_id_p').value = data.data.id_p;
+                document.getElementById('edit_nom_p').value = data.data.nom_p;
+                document.getElementById('edit_dir_p').value = data.data.dir_p;
+                document.getElementById('edit_tel_p').value = data.data.tel_p;
+                document.getElementById('edit_profesion').value = data.data.profesion;
+
+                // Mostrar el modal
+                const modal = new bootstrap.Modal(document.getElementById('editModal'));
+                modal.show();
+
+                // Asignar el evento para guardar cambios
+                document.getElementById('btnGuardarCambios').addEventListener('click', function() {
+                    const profesorEditado = {
+                        id_p: document.getElementById('edit_id_p').value,
+                        nom_p: document.getElementById('edit_nom_p').value,
+                        dir_p: document.getElementById('edit_dir_p').value,
+                        tel_p: document.getElementById('edit_tel_p').value,
+                        profesion: document.getElementById('edit_profesion').value,
+                    };
+
+                    // Validar que todos los campos estén llenos antes de enviar
+                    if (!profesorEditado.id_p || !profesorEditado.nom_p || !profesorEditado.dir_p || !profesorEditado.tel_p || !profesorEditado.profesion) {
+                        alert('Por favor, complete todos los campos.');
+                        return;
+                    }
+
+                    // Enviar los datos editados al servidor
+                    fetch(`http://localhost:3000/profesores/${id_p}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(profesorEditado)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Respuesta de la API al editar:', data);
+                        if (data.statusCode === 200) {
+                            alert('profesor actualizado con éxito');
+
+                            // Cerrar el modal
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+                            modal.hide();
+
+                            // Actualizar la lista de profesor
+                            obtenerProfesores();
+                        } else {
+                            alert('Error al actualizar el profesor: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al actualizar profesor:', error);
+                        alert('Hubo un problema al actualizar el profesor.');
+                    });
+                });
+            } else {
+                alert('No se encontró el profesor con el código proporcionado.');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener los datos del profesor:', error);
+            alert('Hubo un problema al obtener los datos del profesor.');
+        });
+}
+
+
+
+
+
+// Cargar los profesor cuando se cargue la página
+window.onload = obtenerProfesores;
+
+    </script>
+</body>
+
+</html>

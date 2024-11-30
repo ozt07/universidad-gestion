@@ -1,3 +1,5 @@
+import { db } from './db';
+
 // Función para obtener estudiantes desde la API
 async function fetchStudents() {
     try {
