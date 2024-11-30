@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Asignaturas</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h1>Gestión de Asignaturas</h1>
+
+  <!-- Registro de una nueva asignatura -->
+  <section>
+    <h2>Registrar nueva asignatura</h2>
+    <form id="form-registro">
+      <label for="nombre">Codigo:</label>
+      <input type="text" id="cod_a" name="cod_a" required>
+      <label for="intensidad">Nombre:</label>
+      <input type="text" id="nom_a" name="nom_a" required>
+      <label for="intensidad">Intensidad Horaria:</label>
+      <input type="number" id="int_h" name="int_h" required>
+      <label for="creditos">Créditos:</label>
+      <input type="number" id="creditos" name="creditos" required>
+      <button type="submit">Registrar</button>
+    </form>
+  </section>
+
+  <!-- Consultas -->
+  <!-- <section>
+    <h2>Consultar asignaturas</h2>
+    <button id="btn-consulta-total">Consultar todas</button>
+    <form id="form-consulta-individual">
+      <label for="consulta-id">ID de la asignatura:</label>
+      <input type="number" id="consulta-id">
+      <button type="submit">Consultar</button>
+    </form>
+    <div id="resultados"></div>
+  </section> -->
+
+  <!-- Actualización -->
+  <!-- <section>
+    <h2>Actualizar asignatura</h2>
+    <form id="form-actualizar">
+      <label for="update-id">ID:</label>
+      <input type="number" id="update-id" required>
+      <label for="update-nombre">Nombre:</label>
+      <input type="text" id="update-nombre" required>
+      <label for="update-intensidad">Intensidad Horaria:</label>
+      <input type="number" id="update-intensidad" required>
+      <label for="update-creditos">Créditos:</label>
+      <input type="number" id="update-creditos" required>
+      <button type="submit">Actualizar</button>
+    </form>
+  </section> -->
+
+  <!-- Eliminación -->
+  <!-- <section>
+    <h2>Eliminar asignatura</h2>
+    <form id="form-eliminar">
+      <label for="delete-id">ID:</label>
+      <input type="number" id="delete-id" required>
+      <button type="submit">Eliminar</button>
+    </form>
+  </section> -->
+
+  <!-- <script src="js/asignaturas.js"></script> -->
+  <script>
+    document.getElementById('form-registro').addEventListener('submit', function (event) {
+            event.preventDefault();  // Prevenir el comportamiento por defecto (enviar el formulario)
+
+            const asignatura = {
+                cod_a: document.getElementById('cod_a').value,
+                nom_a: document.getElementById('nom_a').value,
+                int_h: document.getElementById('int_h').value,
+                creditos: document.getElementById('creditos').value
+            };
+
+            // Validación simple para asegurarse de que los campos estén completos
+            if (!asignatura.cod_a || !asignatura.nom_a || !asignatura.int_h || !asignatura.creditos) {
+                document.getElementById('mensaje').textContent = 'Por favor, llena todos los campos.';
+                return;
+            }
+
+            fetch('http://localhost:3000/asignaturas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(asignatura),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById('mensaje').textContent = 'Asignatura registrada exitosamente.';
+                document.getElementById('form-registro').reset(); // Limpiar formulario
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('mensaje').textContent = 'Error al registrar la asignatura. Intenta nuevamente.';
+            });
+        });
+  </script>
+</body>
+</html>

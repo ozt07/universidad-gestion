@@ -1,37 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Estudiantes</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <h1>Registro de Estudiantes</h1>
+
+    <!-- Formulario para agregar o actualizar estudiante -->
     <form id="form-estudiante">
-        <input type="text" id="cod_e" placeholder="Código" required />
-        <input type="text" id="nom_e" placeholder="Nombre" required />
-        <input type="text" id="dir_e" placeholder="Dirección" required />
-        <input type="text" id="tel_e" placeholder="Teléfono" required />
-        <input type="date" id="fech_nac" placeholder="Fecha de Nacimiento" required />
+        <input type="text" id="cod_e" placeholder="Código"  />
+        <input type="text" id="nom_e" placeholder="Nombre"  />
+        <input type="text" id="dir_e" placeholder="Dirección"  />
+        <input type="text" id="tel_e" placeholder="Teléfono" />
+        <input type="date" id="fech_nac" placeholder="Fecha de Nacimiento"  />
         <button type="submit">Agregar Estudiante</button>
-      </form>
-      
-      <table>
+    </form>
+
+    <!-- Campo de búsqueda -->
+    <input type="text" id="buscar-estudiantes" placeholder="Buscar estudiante" oninput="buscarEstudiantes()" />
+
+    <!-- Tabla para mostrar estudiantes -->
+    <table>
         <thead>
-          <tr>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Fecha de Nacimiento</th>
-            <th>Acciones</th>
-          </tr>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Acciones</th>
+            </tr>
         </thead>
         <tbody id="tabla-estudiantes"></tbody>
-      </table>
-      
+    </table>
 
-    <script src="/public/js/estudiantes.js"></script>
+    <script src="js/estudiantes.ts"></script>
+    <!-- <script src="../dist/public/js/estudiantes.js"></script> -->
 </body>
 </html>

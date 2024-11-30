@@ -67,3 +67,39 @@ profesorRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(result.statusCode).json(result);
     });
 }));
+//MÉTODOS GET, UPDATE Y DELETE PARA EL ROUTER DE profesor:
+profesorRouter.get('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cod_e = parseInt(req.params.cod_e);
+    profesorController.getById(cod_e, (err, result) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+        if (!result) {
+            return res.status(404).json({ 'message': 'Profesor no encontrado' });
+        }
+        res.status(result.statusCode).json(result);
+    });
+}));
+// profesorRouter.put('/:cod_e', async (req: Request, res: Response) => {
+//     const cod_e = parseInt(req.params.cod_e);
+//     /*
+//     ... operador de propagación (spread operator) en JavaScript y TypeScript.
+//     Este operador permite expandir un objeto o un array en sus elementos individuales
+//     */
+//     const updatedProfesor: Profesor = { ...req.body, cod_e };
+//     profesorController.update(updatedProfesor, (err: Error, result: any) => {
+//         if (err) {
+//             return res.status(500).json({ 'message': err.message });
+//         }
+//         res.status(result.statusCode).json(result);
+//     });
+// });
+profesorRouter.delete('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const cod_e = parseInt(req.params.cod_e);
+    profesorController.remove(cod_e, (err, result) => {
+        if (err) {
+            return res.status(500).json({ 'message': err.message });
+        }
+        res.status(result.statusCode).json(result);
+    });
+}));

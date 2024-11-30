@@ -40,6 +40,10 @@ const dotenv = __importStar(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const estudianteRouter_1 = require("./src/routes/estudianteRouter");
+const profesorRouter_1 = require("./src/routes/profesorRouter");
+const asignaturaRouter_1 = require("./src/routes/asignaturaRouter");
+// import { imparteRouter } from './src/routes/imparteRouter';
+// import { inscribeRouter } from './src/routes/inscribeRouter';
 const db_1 = require("./db");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
@@ -51,6 +55,10 @@ app.get('/', (Req, res) => {
     res.status(200).send('Welcome!');
 });
 app.use('/estudiantes', estudianteRouter_1.estudianteRouter);
+app.use('/profesores', profesorRouter_1.profesorRouter);
+app.use('/asignaturas', asignaturaRouter_1.asignaturaRouter);
+// app.use('/imparte', imparteRouter);
+// app.use('/inscribe', inscribeRouter);
 db_1.db.connect((err) => {
     if (err) {
         console.log('Database connection error');

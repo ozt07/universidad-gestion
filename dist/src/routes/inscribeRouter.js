@@ -45,58 +45,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.asignaturaRouter = void 0;
+exports.inscribeRouter = void 0;
 const express_1 = __importDefault(require("express"));
-const asignaturaController = __importStar(require("../controllers/asignaturaController"));
-const asignaturaRouter = express_1.default.Router();
-exports.asignaturaRouter = asignaturaRouter;
-asignaturaRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const newAsignatura = req.body;
-    asignaturaController.create(newAsignatura, (err, result) => {
+const inscribeController = __importStar(require("../controllers/inscribeController"));
+const inscribeRouter = express_1.default.Router();
+exports.inscribeRouter = inscribeRouter;
+inscribeRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const newInscribe = req.body;
+    inscribeController.create(newInscribe, (err, result) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
         res.status(result.statusCode).json(result);
     });
 }));
-asignaturaRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    asignaturaController.getAll((err, result) => {
+//MÉTODOS GET, UPDATE Y DELETE PARA EL ROUTER DE inscribe:
+inscribeRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    inscribeController.getAll((err, result) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
         res.status(result.statusCode).json(result);
     });
 }));
-//MÉTODOS GET, UPDATE Y DELETE PARA EL ROUTER DE asignatura:
-asignaturaRouter.get('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const cod_e = parseInt(req.params.cod_e);
-    asignaturaController.getById(cod_e, (err, result) => {
+inscribeRouter.get('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { cod_e = parseInt(req.params.cod_e) };
+    inscribeController.getById(cod_e, (err, result) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
         if (!result) {
-            return res.status(404).json({ 'message': 'Asignatura no encontrado' });
+            return res.status(404).json({ 'message': 'Inscribe no encontrado' });
         }
         res.status(result.statusCode).json(result);
     });
 }));
-asignaturaRouter.put('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+inscribeRouter.put('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const cod_e = parseInt(req.params.cod_e);
     /*
     ... operador de propagación (spread operator) en JavaScript y TypeScript.
     Este operador permite expandir un objeto o un array en sus elementos individuales
     */
-    const updatedAsignatura = Object.assign(Object.assign({}, req.body), { cod_e });
-    asignaturaController.update(updatedAsignatura, (err, result) => {
+    const updatedInscribe = Object.assign(Object.assign({}, req.body), { cod_e });
+    inscribeController.update(updatedInscribe, (err, result) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
         res.status(result.statusCode).json(result);
     });
 }));
-asignaturaRouter.delete('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+inscribeRouter.delete('/:cod_e', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const cod_e = parseInt(req.params.cod_e);
-    asignaturaController.remove(cod_e, (err, result) => {
+    inscribeController.remove(cod_e, (err, result) => {
         if (err) {
             return res.status(500).json({ 'message': err.message });
         }
